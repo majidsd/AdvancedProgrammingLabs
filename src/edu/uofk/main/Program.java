@@ -1,7 +1,9 @@
 package edu.uofk.main;
 
+import edu.uofk.screen.LoginScreen;
+
 public class Program {
     public static void main(String[] args) {
-        System.out.println("Hello, world!");
+        var loginScreen = new LoginScreen();
     }
 }
