@@ -2,10 +2,8 @@ package edu.uofk.screen;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class LoginScreen implements ActionListener {
+public class LoginScreen {
     private final JFrame screenFrame;
 
     private final JLabel usernameLabel;
@@ -54,13 +52,11 @@ public class LoginScreen implements ActionListener {
         loginButton = new JButton("Login");
         loginButton.setBounds(260, 310, 100, 25);
         loginButton.setFocusable(false);
-        loginButton.addActionListener(this);
         screenFrame.add(loginButton);
 
         restValuesButton = new JButton("Reset");
         restValuesButton.setBounds(380, 310, 100, 25);
         restValuesButton.setFocusable(false);
-        restValuesButton.addActionListener(this);
         screenFrame.add(restValuesButton);
 
         // 5# Error message section
@@ -71,31 +67,5 @@ public class LoginScreen implements ActionListener {
 
         // Make the main screen visible
         screenFrame.setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // e is holding the click event in this screen, so we have two buttons to click (rest and login), let check them
-        if (e.getSource() == restValuesButton){ // we clear the JTextEdit if rest is clicked
-            usernameField.setText(""); // "" is empty text
-            passwordField.setText(""); // "" is empty as well
-            errorMessageLabel.setText(""); // "" same
-        }
-
-        if (e.getSource() == loginButton) {
-            // As an example we accept only 'admin' and 'password' as valid users
-            String username = usernameField.getText();
-            String password = String.valueOf(passwordField.getPassword());
-            if (username.equals("admin") && password.equals("password")) {
-                // kill the current screen
-                screenFrame.dispose();
-
-                // Open the home screen
-                new HomeScreen(username);
-            } else {
-                errorMessageLabel.setForeground(Color.RED);
-                errorMessageLabel.setText("Invalid username or password");
-            }
-        }
     }
 }
