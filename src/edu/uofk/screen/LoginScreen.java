@@ -2,8 +2,12 @@ package edu.uofk.screen;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class LoginScreen {
+public class LoginScreen implements ActionListener { // either implement ActionListener && actionPerformed or Lambda
     private final JFrame screenFrame;
 
     private final JLabel usernameLabel;
@@ -32,6 +36,30 @@ public class LoginScreen {
         usernameLabel = new JLabel("Username");
         usernameLabel.setBounds(220, 220, 75, 25);
         usernameLabel.setForeground(Color.white);
+        usernameLabel.addMouseListener(
+                new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) { }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) { }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) { }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        usernameLabel.setForeground(Color.GREEN);
+                        usernameLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        usernameLabel.setForeground(Color.WHITE);
+                        usernameLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    }
+                }
+        );
         screenFrame.add(usernameLabel); // attach username label to the screen
 
         usernameField = new JTextField();
@@ -42,6 +70,30 @@ public class LoginScreen {
         passwordLabel = new JLabel("Password");
         passwordLabel.setBounds(220, 260, 75, 25);
         passwordLabel.setForeground(Color.white);
+        passwordLabel.addMouseListener(
+                new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) { }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) { }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) { }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        passwordLabel.setForeground(Color.GREEN);
+                        passwordLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        passwordLabel.setForeground(Color.WHITE);
+                        passwordLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    }
+                }
+        );
         screenFrame.add(passwordLabel); // attach password label to the screen
 
         passwordField = new JPasswordField();
@@ -52,11 +104,18 @@ public class LoginScreen {
         loginButton = new JButton("Login");
         loginButton.setBounds(260, 310, 100, 25);
         loginButton.setFocusable(false);
+        loginButton.addActionListener(this); // This is how to register the ActionListener while interface
         screenFrame.add(loginButton);
 
         restValuesButton = new JButton("Reset");
         restValuesButton.setBounds(380, 310, 100, 25);
         restValuesButton.setFocusable(false);
+        restValuesButton.addActionListener( // using lambda with ActionListener
+                e -> {
+                    usernameField.setText(""); // "" is empty text
+                    passwordField.setText(""); // "" is empty as well
+                }
+        );
         screenFrame.add(restValuesButton);
 
         // 5# Error message section
@@ -67,5 +126,28 @@ public class LoginScreen {
 
         // Make the main screen visible
         screenFrame.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e){
+        if (e.getSource() == loginButton) {
+            // As an example we accept only 'admin' and 'password' as valid users
+            String username = usernameField.getText();
+            String password = String.valueOf(passwordField.getPassword());
+            if (username.equals("admin") && password.equals("password")) {
+                // kill the current screen
+                screenFrame.dispose();
+
+                // Open the home screen
+                new HomeScreen();
+            } else {
+                JOptionPane.showInternalMessageDialog(
+                        null,
+                        "Invalid username or password",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
     }
 }
