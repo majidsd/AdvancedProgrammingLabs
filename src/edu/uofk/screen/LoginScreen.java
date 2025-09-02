@@ -112,8 +112,14 @@ public class LoginScreen implements ActionListener { // either implement ActionL
         restValuesButton.setFocusable(false);
         restValuesButton.addActionListener( // using lambda with ActionListener
                 e -> {
-                    usernameField.setText(""); // "" is empty text
-                    passwordField.setText(""); // "" is empty as well
+                    int answer = JOptionPane.showConfirmDialog(null,
+                            "Are you sure about rest data?",
+                            "Confirm Reset", JOptionPane.OK_CANCEL_OPTION);
+                    if (answer == 0) // 0 is ok, so reset only if user said ok
+                    {
+                        usernameField.setText(""); // "" is empty text
+                        passwordField.setText(""); // "" is empty as well
+                    }
                 }
         );
         screenFrame.add(restValuesButton);
